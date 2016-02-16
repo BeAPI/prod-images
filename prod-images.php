@@ -34,6 +34,10 @@
  * 
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! defined( 'UPLOADS_STRUCTURE_NAME' ) ) {
 	define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/uploads' );
 }
@@ -42,20 +46,25 @@ if ( ! defined( 'PROD_UPLOADS_URL' ) ) {
 	define( 'PROD_UPLOADS_URL', 'http://myproddomain' );
 }
 
+/**
+ * Class Prod_Images
+ */
 class Prod_Images {
-	function __construct() {
-		$this->replace_url();
-	}
 
-	public static function replace_url() {
+	/**
+	 * @return bool
+	 */
+	public function replace_url() {
+
 		if ( false === strpos( $_SERVER['REQUEST_URI'], UPLOADS_STRUCTURE_NAME ) ) {
 			return false;
 		}
+
 		// Get extension
 		$extension = pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION );
 
 		// Send content type header
-		header( 'Content-Type: ' . self::get_mime_type_from_file_extension( $extension ) );
+		header( 'Content-Type: ' . $this->get_mime_type_from_file_extension( $extension ) );
 
 		// Get remote HTML file
 		$response = wp_remote_get( untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['REQUEST_URI'] );
@@ -79,7 +88,12 @@ class Prod_Images {
 		exit();
 	}
 
-	public static function get_mime_type_from_file_extension( $extension ) {
+	/**
+	 * @param $extension
+	 *
+	 * @return mixed
+	 */
+	public function get_mime_type_from_file_extension( $extension ) {
 		global $phpmailer;
 
 		// (Re)create it, if it's gone missing
@@ -93,4 +107,5 @@ class Prod_Images {
 	}
 }
 
-new Prod_Images;
+$prod_images = new Prod_Images();
+$prod_images->replace_url();
