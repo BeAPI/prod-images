@@ -34,41 +34,41 @@
  * 
  */
 
-if ( !defined('UPLOADS_STRUCTURE_NAME') ) {
-	define('UPLOADS_STRUCTURE_NAME', 'wp-content/uploads');
+if ( ! defined( 'UPLOADS_STRUCTURE_NAME' ) ) {
+	define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/uploads' );
 }
 
-if ( !defined('PROD_UPLOADS_URL') ) {
-	define('PROD_UPLOADS_URL', 'http://myproddomain');
+if ( ! defined( 'PROD_UPLOADS_URL' ) ) {
+	define( 'PROD_UPLOADS_URL', 'http://myproddomain' );
 }
 
-if ( false !== strpos($_SERVER['REQUEST_URI'], UPLOADS_STRUCTURE_NAME) ) {
+if ( false !== strpos( $_SERVER['REQUEST_URI'], UPLOADS_STRUCTURE_NAME ) ) {
 	// Get extension
 	$extension = pathinfo( $_SERVER['REQUEST_URI'], PATHINFO_EXTENSION );
 
 	// Send content type header
-	header('Content-Type: '.get_mime_type_from_file_extension($extension));
+	header( 'Content-Type: ' . get_mime_type_from_file_extension( $extension ) );
 
 	// Get remote HTML file
-	$response = wp_remote_get( untrailingslashit(PROD_UPLOADS_URL) . $_SERVER['REQUEST_URI'] );
+	$response = wp_remote_get( untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['REQUEST_URI'] );
 
 	// Get response code
 	$response_code = wp_remote_retrieve_response_code( $response );
-	
+
 	// Check for error and the response code
-	if ( !is_wp_error( $response ) && 200 == $response_code ) {
+	if ( ! is_wp_error( $response ) && 200 == $response_code ) {
 		// Parse remote HTML file
 		$data = wp_remote_retrieve_body( $response );
 
 		// Check for error
-		if ( !is_wp_error( $data ) ) {
-			status_header(200);
+		if ( ! is_wp_error( $data ) ) {
+			status_header( 200 );
 			echo $data;
 			exit();
 		}
 	}
 
-	header('Content-Length: 0');
+	header( 'Content-Length: 0' );
 	exit();
 }
 
