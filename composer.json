@@ -1,6 +1,6 @@
 {
   "name": "bea/prod-images",
-  "description": "This plugin allow to build development environnement without copy data from uploads folder. Manage an failback with PHP and production assets.",
+  "description": "This plugin allow to build development environment without copy data from uploads folder. Manage an failback with PHP and production assets.",
   "minimum-stability": "stable",
   "license": "GPL-2.0",
   "authors": [
