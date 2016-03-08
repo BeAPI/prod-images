@@ -31,7 +31,9 @@
  * 
  * 		You need to add the following rule before this line "RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]"
  * 			RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-content/uploads.*) $1 [L]
- * 
+ *
+ *      Warning :  If define( 'WP_HTTP_BLOCK_EXTERNAL', true ); so, define( 'WP_ACCESSIBLE_HOSTS', 'url_prod' );
+ *
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
