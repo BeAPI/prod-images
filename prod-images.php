@@ -57,8 +57,7 @@ class Prod_Images {
 	 * @return bool
 	 */
 	public function replace_url() {
-
-		@ini_set( 'display_errors', 0 );
+		ob_start();
 
 		$_SERVER['_REQUEST_URI'] = untrailingslashit( $_SERVER['REQUEST_URI'] );
 		if ( false === strpos( $_SERVER['_REQUEST_URI'], UPLOADS_STRUCTURE_NAME ) ) {
@@ -76,6 +75,8 @@ class Prod_Images {
 
 		// Get response code
 		$response_code = wp_remote_retrieve_response_code( $response );
+
+		ob_end_clean();
 
 		// Check for error and the response code
 		if ( ! is_wp_error( $response ) && 200 == $response_code ) {
