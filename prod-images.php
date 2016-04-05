@@ -58,7 +58,7 @@ class Prod_Images {
 	 */
 	public function replace_url() {
 
-		ini_set( 'display_errors', 0 );
+		@ini_set( 'display_errors', 0 );
 
 		$_SERVER['_REQUEST_URI'] = untrailingslashit( $_SERVER['REQUEST_URI'] );
 		if ( false === strpos( $_SERVER['_REQUEST_URI'], UPLOADS_STRUCTURE_NAME ) ) {
