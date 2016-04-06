@@ -19,3 +19,7 @@ RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-content/uploads.*) $1 [L]
 ### 0.1
 * 18 Feb 2016
 * initial
+
+### 0.1.1
+* 06 April 2016
+* fix for wp_debug
