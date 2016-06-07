@@ -7,12 +7,17 @@ This plugin allow to build development environment without copy data from upload
 ## Important to know ##
 
 Define constants :
-- define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/uploads' );
-- define( 'PROD_UPLOADS_URL', 'http://myproddomain' );
+```
+define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/uploads' );
+define( 'PROD_UPLOADS_URL', 'http://myproddomain' );
+```
 
 If installation WP Multisite :
-You need to add the following rule before this line "RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]"
+You need to add the following rule before this line 
+```
+RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
 RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-content/uploads.*) $1 [L]
+```
 
 ## Changelog ##
 
