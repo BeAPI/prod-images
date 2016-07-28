@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BEA - Prod images
- * Version: 0.1.1
+ * Version: 0.1.2
  * Plugin URI: http://www.beapi.fr
  * Description: This plugin allow to build development environment without copy data from uploads folder. Manage an failback with PHP and production assets.
  * Author: BeAPI
@@ -64,6 +64,9 @@ class Prod_Images {
 			return false;
 		}
 
+		// Fix conflict with WProcket
+		define( 'DONOTCACHEPAGE', true );
+
 		// Get extension
 		$extension = pathinfo( $_SERVER['_REQUEST_URI'], PATHINFO_EXTENSION );
 
@@ -90,7 +93,11 @@ class Prod_Images {
 			}
 		}
 
-		header( 'Content-Length: 0' );
+		//TODO Improve cache
+		header( 'Pragma: public' );
+		header( 'Cache-Control: max-age=86400' );
+		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s \G\M\T', time() + 86400 ) );
+		//header( 'Content-Length: 0' );
 		exit();
 	}
 
