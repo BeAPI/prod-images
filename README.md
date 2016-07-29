@@ -19,6 +19,15 @@ RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
 RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-content/uploads.*) $1 [L]
 ```
 
+If your Multisite installation is an old verison with the blog.dir folder, you have to use this rule
+```
+RewriteRule ^([_0-9a-zA-Z-]+/)?files/(.+) $2 [L]
+```
+
+And in the wp-config.php
+```
+define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/blogs.dir' );
+```
 ## Changelog ##
 
 ### 0.1
