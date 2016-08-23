@@ -73,12 +73,12 @@ class Prod_Images {
 		// Send content type header
 		header( 'Content-Type: ' . $this->get_mime_type_from_file_extension( $extension ) );
 
-		// Test if is local file for MS subfolder installation
-		$request_uri_parts = explode('/', ltrim($_SERVER['_REQUEST_URI'], '/') );
+		// Test if is local file for MS subfolder installation.
+		$request_uri_parts = explode( '/', ltrim( $_SERVER['_REQUEST_URI'], '/' ) );
 		array_shift( $request_uri_parts );
-		if ( !is_subdomain_install() && is_file( ABSPATH . implode('/', $request_uri_parts) ) ) {
+		if ( ! is_subdomain_install() && is_file( ABSPATH . implode( '/', $request_uri_parts ) ) ) {
 			status_header( 200 );
-			readfile( ABSPATH . implode('/', $request_uri_parts) );
+			readfile( ABSPATH . implode( '/', $request_uri_parts ) );
 			exit();
 		}
 
