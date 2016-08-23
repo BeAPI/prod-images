@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BEA - Prod images
- * Version: 0.1.2
+ * Version: 0.1.3
  * Plugin URI: http://www.beapi.fr
  * Description: This plugin allow to build development environment without copy data from uploads folder. Manage an failback with PHP and production assets.
  * Author: BeAPI
@@ -16,19 +16,19 @@
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
  * of the License, or (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  *
  * --------------
- * 
+ *
  * 		Installation usage for WP multisite
- * 
+ *
  * 		You need to add the following rule before this line "RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]"
  * 			RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-content/uploads.*) $1 [L]
  *
@@ -72,6 +72,15 @@ class Prod_Images {
 
 		// Send content type header
 		header( 'Content-Type: ' . $this->get_mime_type_from_file_extension( $extension ) );
+
+		// Test if is local file for MS subfolder installation
+		$request_uri_parts = explode('/', ltrim($_SERVER['_REQUEST_URI'], '/') );
+		array_shift( $request_uri_parts );
+		if ( !is_subdomain_install() && is_file( ABSPATH . implode('/', $request_uri_parts) ) ) {
+			status_header( 200 );
+			readfile( ABSPATH . implode('/', $request_uri_parts) );
+			exit();
+		}
 
 		// Get remote HTML file
 		$response = wp_remote_get( untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['_REQUEST_URI'] );
