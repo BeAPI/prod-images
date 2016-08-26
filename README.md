@@ -13,10 +13,10 @@ define( 'PROD_UPLOADS_URL', 'http://myproddomain' );
 ```
 
 If installation WP Multisite :
-You need to add the following rule before this line 
+You need to add the following rule before this line **wp-(content|admin|includes).*)**
 ```
-RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
 RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-content/uploads.*) $1 [L]
+RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
 ```
 
 If your Multisite installation is an old verison with the blog.dir folder, you have to use this rule
@@ -37,3 +37,11 @@ define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/blogs.dir' );
 ### 0.1.1
 * 06 April 2016
 * fix for wp_debug
+
+### 0.1.2
+* 28 July 2016
+* fix cached image withe WP Rocket
+
+### 0.1.3
+* 23 August 2016
+* fix loading of local images
