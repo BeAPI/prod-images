@@ -45,3 +45,7 @@ define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/blogs.dir' );
 ### 0.1.3
 * 23 August 2016
 * fix loading of local images
+
+### 0.1.4
+* 08 September 2016
+* fix fatal error on single site due to is_subdomain_install() function

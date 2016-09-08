@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BEA - Prod images
- * Version: 0.1.3
+ * Version: 0.1.4
  * Plugin URI: http://www.beapi.fr
  * Description: This plugin allow to build development environment without copy data from uploads folder. Manage an failback with PHP and production assets.
  * Author: BeAPI
@@ -10,7 +10,7 @@
  * Network: false
  *
  * --------------
- * Copyright 2015 - BeAPI Team (technique@beapi.fr)
+ * Copyright 2016 - BeAPI Team (human@beapi.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -76,7 +76,7 @@ class Prod_Images {
 		// Test if is local file for MS subfolder installation.
 		$request_uri_parts = explode( '/', ltrim( $_SERVER['_REQUEST_URI'], '/' ) );
 		array_shift( $request_uri_parts );
-		if ( ! is_subdomain_install() && is_file( ABSPATH . implode( '/', $request_uri_parts ) ) ) {
+		if ( function_exists( 'is_subdomain_install' ) && ! is_subdomain_install() && is_file( ABSPATH . implode( '/', $request_uri_parts ) ) ) {
 			status_header( 200 );
 			readfile( ABSPATH . implode( '/', $request_uri_parts ) );
 			exit();
