@@ -48,6 +48,10 @@ if ( ! defined( 'PROD_UPLOADS_URL' ) ) {
 	define( 'PROD_UPLOADS_URL', 'http://myproddomain' );
 }
 
+if ( ! defined( 'PROD_UPLOADS_DOWNLOAD' ) ) {
+	define( 'PROD_UPLOADS_DOWNLOAD', false );
+}
+
 /**
  * Class Prod_Images
  */
@@ -98,6 +102,14 @@ class Prod_Images {
 			if ( ! is_wp_error( $data ) ) {
 				status_header( 200 );
 				echo $data;
+
+				/**
+				 * Download the url if the configuration said so
+				 **/
+				if ( true === PROD_UPLOADS_DOWNLOAD ) {
+					$this->download_asset( $_SERVER['_REQUEST_URI'], $data );
+				}
+
 				exit();
 			}
 		}
@@ -108,6 +120,26 @@ class Prod_Images {
 		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s \G\M\T', time() + 86400 ) );
 		//header( 'Content-Length: 0' );
 		exit();
+	}
+
+	/**
+	 * Download the _REQUEST_URI file with the given data.
+	 *
+	 * @param $request_uri
+	 * @param $data
+	 *
+	 * @return bool|int
+	 * @author Nicolas JUEN
+	 */
+	private function download_asset( $request_uri, $data ) {
+		$folder = ABSPATH.dirname( $request_uri );
+
+		// Create the folder reccursively.
+		if ( false === wp_mkdir_p( $folder ) ) {
+			return false;
+		}
+
+		return file_put_contents( trailingslashit( $folder ).basename( $request_uri ), $data );
 	}
 
 	/**
