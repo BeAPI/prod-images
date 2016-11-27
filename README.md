@@ -27,7 +27,13 @@ RewriteRule ^([_0-9a-zA-Z-]+/)?files/(.+) $2 [L]
 And in the wp-config.php
 ```
 define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/blogs.dir' );
+
+/**
+* if true, download the file locally.
+**/
+define( 'PROD_UPLOADS_DOWNLOAD', false );
 ```
+
 ## Changelog ##
 
 ### 0.1
