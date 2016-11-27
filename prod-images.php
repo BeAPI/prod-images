@@ -132,14 +132,14 @@ class Prod_Images {
 	 * @author Nicolas JUEN
 	 */
 	private function download_asset( $request_uri, $data ) {
-		$folder = ABSPATH.dirname( $request_uri );
+		$folder = ABSPATH . dirname( $request_uri );
 
 		// Create the folder reccursively.
 		if ( false === wp_mkdir_p( $folder ) ) {
 			return false;
 		}
 
-		return file_put_contents( trailingslashit( $folder ).basename( $request_uri ), $data );
+		return file_put_contents( trailingslashit( $folder ) . basename( $request_uri ), $data );
 	}
 
 	/**
