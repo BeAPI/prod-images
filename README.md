@@ -49,3 +49,7 @@ define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/blogs.dir' );
 ### 0.1.4
 * 08 September 2016
 * fix fatal error on single site due to is_subdomain_install() function
+
+### 0.1.5
+* 24 July 2017
+* Support SVG files
