@@ -8,7 +8,7 @@ This plugin allow to build development environment without copy data from upload
 
 Define constants :
 ```
-define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/uploads' );
+define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/uploads, wp-content/blogs.dir' );
 define( 'PROD_UPLOADS_URL', 'http://myproddomain' );
 ```
 
@@ -30,22 +30,26 @@ define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/blogs.dir' );
 ```
 ## Changelog ##
 
-### 0.1
-* 18 Feb 2016
-* initial
+### 0.1.5
+* 08 January 2018
+* Allow multiples values for UPLOADS_STRUCTURE_NAME 
 
-### 0.1.1
-* 06 April 2016
-* fix for wp_debug
-
-### 0.1.2
-* 28 July 2016
-* fix cached image withe WP Rocket
+### 0.1.4
+* 08 September 2016
+* fix fatal error on single site due to is_subdomain_install() function
 
 ### 0.1.3
 * 23 August 2016
 * fix loading of local images
 
-### 0.1.4
-* 08 September 2016
-* fix fatal error on single site due to is_subdomain_install() function
+### 0.1.2
+* 28 July 2016
+* fix cached image withe WP Rocket
+
+### 0.1.1
+* 06 April 2016
+* fix for wp_debug
+
+### 0.1
+* 18 Feb 2016
+* initial
