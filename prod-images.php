@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BEA - Prod images
- * Version: 0.1.4
+ * Version: 0.1.5
  * Plugin URI: http://www.beapi.fr
  * Description: This plugin allow to build development environment without copy data from uploads folder. Manage an failback with PHP and production assets.
  * Author: BeAPI
@@ -10,7 +10,7 @@
  * Network: false
  *
  * --------------
- * Copyright 2016 - BeAPI Team (human@beapi.fr)
+ * Copyright 2018 - BeAPI Team (human@beapi.fr)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -41,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'UPLOADS_STRUCTURE_NAME' ) ) {
-	define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/uploads' );
+	define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/uploads, wp-content/blogs.dir' );
 }
 
 if ( ! defined( 'PROD_UPLOADS_URL' ) ) {
@@ -64,7 +64,17 @@ class Prod_Images {
 		ob_start();
 
 		$_SERVER['_REQUEST_URI'] = untrailingslashit( $_SERVER['REQUEST_URI'] );
-		if ( false === strpos( $_SERVER['_REQUEST_URI'], UPLOADS_STRUCTURE_NAME ) ) {
+
+		$path_segments = array_filter(array_map('trim', explode(",", UPLOADS_STRUCTURE_NAME)), 'strlen');
+		$flag = false;
+		foreach( $path_segments as $path_segment ) {
+			if ( false !== strpos( $_SERVER['_REQUEST_URI'], $path_segment ) ) {
+				$flag = true;
+				break;
+			}
+		}
+
+		if ( false === $flag ) {
 			return false;
 		}
 
