@@ -97,7 +97,7 @@ class Prod_Images {
 		}
 
 		// Get remote HTML file
-		$defaults = [ 'sslverify' => PROD_SSL_VERIFY ];
+		$defaults = array( 'sslverify' => PROD_SSL_VERIFY );
 		$args     = (array) apply_filters( 'prod_images/remote_get_args', $defaults );
 		$response = wp_remote_get( untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['_REQUEST_URI'], $args );
 
