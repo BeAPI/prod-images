@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BEA - Prod images
- * Version: 0.1.5
+ * Version: 0.1.6
  * Plugin URI: http://www.beapi.fr
  * Description: This plugin allow to build development environment without copy data from uploads folder. Manage an failback with PHP and production assets.
  * Author: BeAPI
@@ -46,6 +46,10 @@ if ( ! defined( 'UPLOADS_STRUCTURE_NAME' ) ) {
 
 if ( ! defined( 'PROD_UPLOADS_URL' ) ) {
 	define( 'PROD_UPLOADS_URL', 'http://myproddomain' );
+}
+
+if ( ! defined( 'PROD_SSL_VERIFY' ) ) {
+	define( 'PROD_SSL_VERIFY', true );
 }
 
 /**
@@ -93,7 +97,9 @@ class Prod_Images {
 		}
 
 		// Get remote HTML file
-		$response = wp_remote_get( untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['_REQUEST_URI'] );
+		$defaults = [ 'sslverify' => PROD_SSL_VERIFY ];
+		$args     = (array) apply_filters( 'prod_images/remote_get_args', $defaults );
+		$response = wp_remote_get( untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['_REQUEST_URI'], $args );
 
 		// Get response code
 		$response_code = wp_remote_retrieve_response_code( $response );
