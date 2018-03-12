@@ -28,7 +28,17 @@ And in the wp-config.php
 ```
 define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/blogs.dir' );
 ```
+
+Optionally you can add 
+```
+define( 'PROD_SSL_VERIFY', false );// default is true
+```
+
 ## Changelog ##
+
+### 0.1.6
+* 12 March 2018
+* Add constant PROD_SSL_VERIFY and filter prod_images/remote_get_args
 
 ### 0.1.5
 * 08 January 2018
