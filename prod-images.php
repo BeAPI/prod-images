@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BEA - Prod images
- * Version: 0.1.6
+ * Version: 0.1.7
  * Plugin URI: http://www.beapi.fr
  * Description: This plugin allow to build development environment without copy data from uploads folder. Manage an failback with PHP and production assets.
  * Author: BeAPI
@@ -65,9 +65,9 @@ class Prod_Images {
 
 		$_SERVER['_REQUEST_URI'] = untrailingslashit( $_SERVER['REQUEST_URI'] );
 
-		$path_segments = array_filter(array_map('trim', explode(",", UPLOADS_STRUCTURE_NAME)), 'strlen');
-		$flag = false;
-		foreach( $path_segments as $path_segment ) {
+		$path_segments = array_filter( array_map( 'trim', explode( ",", UPLOADS_STRUCTURE_NAME ) ), 'strlen' );
+		$flag          = false;
+		foreach ( $path_segments as $path_segment ) {
 			if ( false !== strpos( $_SERVER['_REQUEST_URI'], $path_segment ) ) {
 				$flag = true;
 				break;
@@ -87,6 +87,9 @@ class Prod_Images {
 		// Send content type header
 		header( 'Content-Type: ' . $this->get_mime_type_from_file_extension( $extension ) );
 
+		// Send content proxy name
+		header( 'WP-Proxy: prod-images' );
+
 		// Test if is local file for MS subfolder installation.
 		$request_uri_parts = explode( '/', ltrim( $_SERVER['_REQUEST_URI'], '/' ) );
 		array_shift( $request_uri_parts );
@@ -96,10 +99,15 @@ class Prod_Images {
 			exit();
 		}
 
-		// Get remote HTML file
+		// Get remote media file
 		$defaults = array( 'sslverify' => PROD_SSL_VERIFY );
 		$args     = (array) apply_filters( 'prod_images/remote_get_args', $defaults );
-		$response = wp_remote_get( untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['_REQUEST_URI'], $args );
+		$url      = untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['_REQUEST_URI'];
+
+		$response = wp_remote_get( $url, $args );
+
+		// Send content proxy used URL
+		header( 'WP-Proxy-URL: ' . $url );
 
 		// Get response code
 		$response_code = wp_remote_retrieve_response_code( $response );
