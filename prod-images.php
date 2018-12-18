@@ -65,7 +65,7 @@ class Prod_Images {
 
 		$_SERVER['_REQUEST_URI'] = untrailingslashit( $_SERVER['REQUEST_URI'] );
 
-		$path_segments = array_filter( array_map( 'trim', explode( ",", UPLOADS_STRUCTURE_NAME ) ), 'strlen' );
+		$path_segments = array_filter( array_map( 'trim', explode( ',', UPLOADS_STRUCTURE_NAME ) ), 'strlen' );
 		$flag          = false;
 		foreach ( $path_segments as $path_segment ) {
 			if ( false !== strpos( $_SERVER['_REQUEST_URI'], $path_segment ) ) {
@@ -100,9 +100,8 @@ class Prod_Images {
 		}
 
 		// Get remote media file
-		$defaults = array( 'sslverify' => PROD_SSL_VERIFY );
-		$args     = (array) apply_filters( 'prod_images/remote_get_args', $defaults );
-		$url      = untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['_REQUEST_URI'];
+		$args = (array) apply_filters( 'prod_images/remote_get_args', array( 'sslverify' => PROD_SSL_VERIFY ) );
+		$url  = apply_filters( 'prod_images/remote_get_url', untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['_REQUEST_URI'], $_SERVER['_REQUEST_URI'] );
 
 		$response = wp_remote_get( $url, $args );
 
@@ -115,13 +114,13 @@ class Prod_Images {
 		ob_end_clean();
 
 		// Check for error and the response code
-		if ( ! is_wp_error( $response ) && 200 == $response_code ) {
+		if ( ! is_wp_error( $response ) && 200 === $response_code ) {
 			// Parse remote HTML file
 			$data = wp_remote_retrieve_body( $response );
 			// Check for error
 			if ( ! is_wp_error( $data ) ) {
 				status_header( 200 );
-				echo $data;
+				echo $data; // phpcs:ignore
 				exit();
 			}
 		}
@@ -140,16 +139,16 @@ class Prod_Images {
 	 * @return mixed
 	 */
 	public function get_mime_type_from_file_extension( $extension ) {
-		global $phpmailer;
+		global $my_phpmailer;
 
 		// (Re)create it, if it's gone missing
-		if ( ! ( $phpmailer instanceof PHPMailer ) ) {
+		if ( ! ( $my_phpmailer instanceof PHPMailer ) ) {
 			require_once ABSPATH . WPINC . '/class-phpmailer.php';
 			require_once ABSPATH . WPINC . '/class-smtp.php';
-			$phpmailer = new PHPMailer( true );
+			$my_phpmailer = new PHPMailer( true );
 		}
 
-		return $phpmailer->_mime_types( $extension );
+		return $my_phpmailer->_mime_types( $extension );
 	}
 }
 
