@@ -36,6 +36,11 @@ define( 'PROD_SSL_VERIFY', false );// default is true
 
 ## Changelog ##
 
+### 0.1.8
+* 18 December 2018
+* Minor code refactoring (phpcs)
+* Add filter prod_images/remote_get_url
+
 ### 0.1.7
 * 14 March 2018
 * Add two HTTP headers for allow easier debugging
