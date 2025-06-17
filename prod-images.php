@@ -26,16 +26,18 @@
  * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
+// Security check.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-if ( ! defined( 'UPLOADS_STRUCTURE_NAME' ) ) {
-	define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/uploads, wp-content/blogs.dir' );
+// If PROD_UPLOADS_URL is not defined, exit.
+if ( ! defined( 'PROD_UPLOADS_URL' ) ) {
+	return;
 }
 
-if ( ! defined( 'PROD_UPLOADS_URL' ) ) {
-	define( 'PROD_UPLOADS_URL', 'http://myproddomain' );
+if ( ! defined( 'UPLOADS_STRUCTURE_NAME' ) ) {
+	define( 'UPLOADS_STRUCTURE_NAME', 'wp-content/uploads, wp-content/blogs.dir' );
 }
 
 if ( ! defined( 'PROD_SSL_VERIFY' ) ) {

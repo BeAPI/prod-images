@@ -71,11 +71,12 @@ define( 'PROD_SSL_VERIFY', false );// default is true
 
 ## Changelog ##
 
-
 ### 0.1.9
+
 * 13 May 2019
 * Refactoring mimes types check (add SVG support)
 * Improve readme (nginx part)
+* Disable plugin feature if main constant is not defined
 
 ### 0.1.8
 * 18 December 2018
