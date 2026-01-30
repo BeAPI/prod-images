@@ -1,6 +1,7 @@
-# Prod Images #
+# Prod Images - WordPress plugin proxy for medias #
 
 [![CodeFactor](https://www.codefactor.io/repository/github/beapi/prod-images/badge)](https://www.codefactor.io/repository/github/beapi/prod-images)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/BeAPI/prod-images)
 
 ## Description ##
 
