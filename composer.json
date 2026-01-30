@@ -1,13 +1,50 @@
 {
-  "name": "bea/prod-images",
-  "description": "This plugin allow to build development environment without copy data from uploads folder. Manage an failback with PHP and production assets.",
-  "minimum-stability": "stable",
-  "license": "GPL-2.0",
-  "authors": [
-    {
-      "name": "BeAPI",
-      "email": "technique@beapi.fr"
-    }
-  ],
-  "type" : "wordpress-muplugin"
+	"name": "beapi/prod-images",
+	"description": "Allows building development environment without copying data from uploads folder. Manages a fallback with PHP and production assets.",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Be API",
+			"email": "contact@beapi.fr",
+			"homepage": "https://beapi.fr"
+		}
+	],
+	"keywords": [
+		"wordpress",
+		"plugin",
+		"uploads",
+		"proxy",
+		"development",
+		"assets"
+	],
+	"require": {
+		"php": ">=7.4",
+		"composer/installers": "^1.0 || ^2.0"
+	},
+	"require-dev": {
+		"php": ">=7.4",
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"overtrue/phplint": "^9.0",
+		"php-parallel-lint/php-parallel-lint": "^1.4",
+		"phpcompatibility/phpcompatibility-wp": "^2.1",
+		"wp-coding-standards/wpcs": "^3.1",
+		"roave/security-advisories": "dev-latest"
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"dealerdirect/phpcodesniffer-composer-installer": true
+		}
+	},
+	"scripts": {
+		"cs": "./vendor/bin/phpcs",
+		"cb": "./vendor/bin/phpcbf",
+		"lint": "./vendor/bin/phplint",
+		"parallel-lint": "./vendor/bin/parallel-lint"
+	},
+	"support": {
+		"issues": "https://github.com/beapi/prod-images/issues",
+		"source": "https://github.com/beapi/prod-images"
+	}
 }

@@ -96,34 +96,6 @@ nb-configuration.xml
 sftp-config.json
 sftp-config-alt.json
 
-### WordPress ###
-wp-content/uploads/
-wp-content/blogs.dir/
-wp-content/upgrade/
-wp-content/backup-db/
-wp-content/advanced-cache.php
-wp-content/wp-cache-config.php
-wp-content/languages/
-sitemap.xml
-*.log
-wp-content/cache/
-wp-content/backups/
-sitemap.xml.gz
-
-### Project ###
-#Dont track wp-minify cache folder
-wp-content/plugins/bwp-minify/cache/
-
-wp-content/plugins/developer/
-wp-content/plugins/debug-bar-console/
-wp-content/plugins/debug-bar-cron/
-wp-content/plugins/debug-bar-extender/
-wp-content/plugins/debug-bar/
-wp-content/plugins/developer/
-wp-content/plugins/log-deprecated-notices/
-wp-content/plugins/rewrite-rules-inspector/
-
-
 ### PhpStorm ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode
 
@@ -156,3 +128,7 @@ bower_components/
 
 ### Google 
 google*.html
+
+### Composer ###
+vendor/
+composer.lock

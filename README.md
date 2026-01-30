@@ -69,48 +69,20 @@ Optionally you can add
 define( 'PROD_SSL_VERIFY', false );// default is true
 ```
 
+## Debug mode ##
+
+When developing or troubleshooting, you can append `?debug` to any proxied asset URL. The plugin will then:
+
+- **Not send** any content-type or image headers (no binary output)
+- **Display** a dump of:
+  - The remote URL actually called (the `debug` parameter is never sent to production)
+  - The request headers as built by WordPress (User-Agent, Accept, etc.)
+  - The response headers returned by the production server
+
+Example: opening  
+`https://your-dev.local/wp-content/uploads/2024/01/photo.jpg?debug`  
+in your browser will show the debug output instead of the image. Use this to verify the production URL, check that the browser User-Agent is forwarded, and inspect the remote response (status, cache headers, etc.).
+
 ## Changelog ##
 
-### 0.1.9
-
-* 13 May 2019
-* Refactoring mimes types check (add SVG support)
-* Improve readme (nginx part)
-* Disable plugin feature if main constant is not defined
-
-### 0.1.8
-* 18 December 2018
-* Minor code refactoring (phpcs)
-* Add filter prod_images/remote_get_url
-
-### 0.1.7
-* 14 March 2018
-* Add two HTTP headers for allow easier debugging
-
-### 0.1.6
-* 12 March 2018
-* Add constant PROD_SSL_VERIFY and filter prod_images/remote_get_args
-
-### 0.1.5
-* 08 January 2018
-* Allow multiples values for UPLOADS_STRUCTURE_NAME 
-
-### 0.1.4
-* 08 September 2016
-* fix fatal error on single site due to is_subdomain_install() function
-
-### 0.1.3
-* 23 August 2016
-* fix loading of local images
-
-### 0.1.2
-* 28 July 2016
-* fix cached image withe WP Rocket
-
-### 0.1.1
-* 06 April 2016
-* fix for wp_debug
-
-### 0.1
-* 18 Feb 2016
-* initial
+See [CHANGELOG.md](CHANGELOG.md) for the full version history.

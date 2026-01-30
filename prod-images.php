@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BEA - Prod images
- * Version: 0.1.9
+ * Version: 0.2.0
  * Plugin URI: https://beapi.fr
  * Description: This plugin allow to build development environment without copy data from uploads folder. Manage an failback with PHP and production assets.
  * Author: Be API
@@ -78,6 +78,33 @@ class Prod_Images {
 		// Get extension
 		$extension = pathinfo( $_SERVER['_REQUEST_URI'], PATHINFO_EXTENSION );
 
+		// Get remote URL (before any header so debug can use it). Strip debug param so it is not sent to production.
+		$default_args = [ 'sslverify' => PROD_SSL_VERIFY ];
+		if ( ! empty( $_SERVER['HTTP_USER_AGENT'] ) ) {
+			$default_args['user-agent'] = sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) );
+		}
+		$args     = (array) apply_filters( 'prod_images/remote_get_args', $default_args ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+		$base_url = untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['_REQUEST_URI'];
+		$url      = apply_filters( 'prod_images/remote_get_url', remove_query_arg( 'debug', $base_url ), $_SERVER['_REQUEST_URI'] ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+
+		// Debug mode: output URL, request headers (as merged by WP) and response headers without sending content-type.
+		if ( isset( $_GET['debug'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$request_headers_captured = [];
+			$capture_wp_request_args  = function ( $request_args ) use ( &$request_headers_captured ) {
+				$request_headers_captured = isset( $request_args['headers'] ) && is_array( $request_args['headers'] ) ? $request_args['headers'] : [];
+				if ( ! empty( $request_args['user-agent'] ) ) {
+					$request_headers_captured['User-Agent'] = $request_args['user-agent'];
+				}
+				return $request_args;
+			};
+			add_filter( 'http_request_args', $capture_wp_request_args, 999 );
+			$response = wp_remote_get( $url, $args );
+			remove_filter( 'http_request_args', $capture_wp_request_args, 999 );
+			$response_headers = wp_remote_retrieve_headers( $response );
+			var_dump( $url, $request_headers_captured, $response_headers ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_dump
+			die();
+		}
+
 		// Send content type header
 		header( 'Content-Type: ' . $this->get_mime_types( $extension ) );
 
@@ -89,13 +116,9 @@ class Prod_Images {
 		array_shift( $request_uri_parts );
 		if ( function_exists( 'is_subdomain_install' ) && ! is_subdomain_install() && is_file( ABSPATH . implode( '/', $request_uri_parts ) ) ) {
 			status_header( 200 );
-			readfile( ABSPATH . implode( '/', $request_uri_parts ) );
+			readfile( ABSPATH . implode( '/', $request_uri_parts ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
 			exit();
 		}
-
-		// Get remote media file
-		$args = (array) apply_filters( 'prod_images/remote_get_args', array( 'sslverify' => PROD_SSL_VERIFY ) );
-		$url  = apply_filters( 'prod_images/remote_get_url', untrailingslashit( PROD_UPLOADS_URL ) . $_SERVER['_REQUEST_URI'], $_SERVER['_REQUEST_URI'] );
 
 		$response = wp_remote_get( $url, $args );
 
@@ -138,7 +161,7 @@ class Prod_Images {
 	 * @return string MIME type of file.
 	 */
 	public function get_mime_types( $ext = '' ) {
-		$mimes = array(
+		$mimes = [
 			'xl'    => 'application/excel',
 			'js'    => 'application/javascript',
 			'hqx'   => 'application/mac-binhex40',
@@ -238,7 +261,7 @@ class Prod_Images {
 			'avi'   => 'video/x-msvideo',
 			'movie' => 'video/x-sgi-movie',
 			'svg'   => 'image/svg+xml', // Added by BeAPI
-		);
+		];
 
 		if ( array_key_exists( strtolower( $ext ), $mimes ) ) {
 			return $mimes[ strtolower( $ext ) ];
