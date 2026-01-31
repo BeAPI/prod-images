@@ -1,5 +1,6 @@
 {
-	"name": "beapi/prod-images",
+	"name": "bea/prod-images",
+	"version": "0.2.1",
 	"description": "Allows building development environment without copying data from uploads folder. Manages a fallback with PHP and production assets.",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",

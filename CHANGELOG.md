@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.1] - 2025-01-31
+
+### Changed
+
+- Composer package name: `beapi/prod-images` → `bea/prod-images`.
+
 ## [0.2.0] - 2025-01-30
 
 ### Added
