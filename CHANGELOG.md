@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2] - 2026-06-16
+
+### Added
+
+- Exclude paths containing `_pda/` from the production proxy. This directory alias is used by [Prevent Direct Access](https://wordpress.org/plugins/prevent-direct-access/) for protected uploads; those files must be served locally and must not be fetched from production.
+- Filter `prod_images/excluded_paths` to extend the list of excluded path patterns.
+
 ## [0.2.1] - 2025-01-31
 
 ### Changed

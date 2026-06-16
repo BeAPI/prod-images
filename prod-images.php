@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BEA - Prod images
- * Version: 0.2.1
+ * Version: 0.2.2
  * Plugin URI: https://beapi.fr
  * Description: This plugin allow to build development environment without copy data from uploads folder. Manage an failback with PHP and production assets.
  * Author: Be API
@@ -70,6 +70,14 @@ class Prod_Images {
 
 		if ( false === $flag ) {
 			return;
+		}
+
+		// Skip paths used by Prevent Direct Access (_pda/ upload alias).
+		$excluded_paths = apply_filters( 'prod_images/excluded_paths', [ '_pda/' ] ); // phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
+		foreach ( (array) $excluded_paths as $excluded_path ) {
+			if ( is_string( $excluded_path ) && '' !== $excluded_path && false !== strpos( $_SERVER['_REQUEST_URI'], $excluded_path ) ) {
+				return;
+			}
 		}
 
 		// Fix conflict with WProcket
